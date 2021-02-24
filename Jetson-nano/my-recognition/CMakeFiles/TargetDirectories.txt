@@ -1,0 +1,3 @@
+/home/jetson/Github/Jetson/Jetson-nano/my-recognition/CMakeFiles/rebuild_cache.dir
+/home/jetson/Github/Jetson/Jetson-nano/my-recognition/CMakeFiles/my-recognition.dir
+/home/jetson/Github/Jetson/Jetson-nano/my-recognition/CMakeFiles/edit_cache.dir
