@@ -3,6 +3,7 @@ import pyrealsense2 as rs
 import numpy as np
 import datetime
 import imutils
+import threading
 import cv2
 
 def gstreamer_pipeline(
@@ -39,17 +40,17 @@ def take_picture(num):
     print(gstreamer_pipeline(flip_method=2))
     cap = cv2.VideoCapture(gstreamer_pipeline(flip_method=2), cv2.CAP_GSTREAMER)
     if cap.isOpened():
-        window_handle = cv2.namedWindow("CSI Camera", cv2.WINDOW_AUTOSIZE)
+    #    window_handle = cv2.namedWindow("CSI Camera", cv2.WINDOW_AUTOSIZE)
         result = True
         # Window
-        while (cv2.getWindowProperty("CSI Camera", 0) >= 0) & result:
+        while(result):
             ret_val, img = cap.read()
             #cv2.imshow("CSI Camera", img)
             name = str(num) + ".jpg"
             cv2.imwrite(name,img)
             result = False
         cap.release()
-        cv2.destroyAllWindows()
+    #    cv2.destroyAllWindows()
     else:
         print("Unable to open camera")
 
@@ -121,7 +122,8 @@ def main():
             elif keyCode == ord('s'):
                 print("something")
                 count = count + 1
-                take_picture(count)
+                capture_thread = threading.Thread(target=take_picture, args=(count,))
+                capture_thread.start()
         cv2.destroyAllWindows()
 
     finally:
