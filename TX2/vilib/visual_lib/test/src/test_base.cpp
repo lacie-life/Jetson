@@ -51,8 +51,10 @@ TestBase::TestBase(const char * name, const char * file_path, const int max_imag
   max_image_num_(max_image_num),
   success_(true),
   evaluated_(false) {
+  // std::cout << file_path << std::endl;
   is_list_ = is_list_file(file_path);
 }
+
 
 TestBase::~TestBase(void) {
 }
@@ -60,6 +62,7 @@ TestBase::~TestBase(void) {
 bool TestBase::evaluate(void) {
   std::cout << "### " << name_ << std::endl;
   success_ = this->run();
+  // std::cerr << "error" << std::endl;
   std::cout << " Success: " << (success_?TEXT_OK:TEXT_FAIL) << std::endl;
   evaluated_ = true;
   return success_;

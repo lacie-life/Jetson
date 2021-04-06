@@ -48,6 +48,8 @@ using namespace vilib;
 
 TestPyramid::TestPyramid(const char * image_path) :
   TestBase("Image Pyramid",image_path) {
+  
+  std::cerr << image_path << std::endl;
 }
 
 TestPyramid::~TestPyramid() {
@@ -59,6 +61,7 @@ bool TestPyramid::run(void) {
   
   // Load image
   load_image(cv::IMREAD_GRAYSCALE,false,false);
+  
 
   // Run the pyramid creation on the CPU
   std::vector<cv::Mat> img_pyramid_cpu;
@@ -67,7 +70,8 @@ bool TestPyramid::run(void) {
     if(img_pyramid_cpu.size()) {
       img_pyramid_cpu.clear();
     }
-    img_pyramid_cpu_time.start();
+    
+    
     pyramid_create_cpu(image_,
                       img_pyramid_cpu,
                       PYRAMID_LEVELS,
@@ -75,14 +79,15 @@ bool TestPyramid::run(void) {
     img_pyramid_cpu_time.stop();
     img_pyramid_cpu_time.add_to_stat_n_reset();
   }
-
+  img_pyramid_cpu_time.start();
+  
   // Run the pyramid creation on the GPU
   std::vector<unsigned char *> d_img_pyramid_gpu;
   std::vector<cv::Mat> h_img_pyramid_gpu;
   std::vector<std::size_t> img_pyramid_gpu_width;
   std::vector<std::size_t> img_pyramid_gpu_height;
   std::vector<std::size_t> img_pyramid_gpu_pitch;
-
+  
   preallocate_pyramid_gpu(d_img_pyramid_gpu,
                           img_pyramid_gpu_width,
                           img_pyramid_gpu_height,
@@ -97,22 +102,26 @@ bool TestPyramid::run(void) {
                image_width_,
                image_height_,
                cudaMemcpyHostToDevice);
+  std::cerr <<  " " << sizeof(image_.data) << " " << std::endl;
   Timer img_pyramid_gpu_cpu_time("GPU Host (w. preallocated array)");
   TimerGPU img_pyramid_gpu_time("GPU Device (w. preallocated array)");
   for(std::size_t r = 0;r<REPETITION_COUNT;++r) {
     img_pyramid_gpu_time.start();
     img_pyramid_gpu_cpu_time.start();
+    
     pyramid_create_gpu(d_img_pyramid_gpu,
                        img_pyramid_gpu_width,
                        img_pyramid_gpu_height,
                        img_pyramid_gpu_pitch,
                        PYRAMID_LEVELS,
                        0);
+    // std::cerr << "error" << std::endl;
     img_pyramid_gpu_cpu_time.stop();
     img_pyramid_gpu_time.stop();
     img_pyramid_gpu_time.add_to_stat_n_reset();
     img_pyramid_gpu_cpu_time.add_to_stat_n_reset();
   }
+  
   copy_pyramid_from_gpu(d_img_pyramid_gpu,
                         h_img_pyramid_gpu,
                         img_pyramid_gpu_pitch,
@@ -121,7 +130,7 @@ bool TestPyramid::run(void) {
 #if DISPLAY_OUTPUT_IMAGES
   pyramid_display(h_img_pyramid_gpu);
 #endif /* DISPLAY_OUTPUT_IMAGES */
-
+  
   // Display statistics
   img_pyramid_cpu_time.display_stat_usec();
   img_pyramid_gpu_time.display_stat_usec();

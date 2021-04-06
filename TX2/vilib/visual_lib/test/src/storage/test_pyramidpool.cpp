@@ -58,15 +58,18 @@ TestPyramidPool::~TestPyramidPool(void) {
 
 bool TestPyramidPool::run(void) {
   bool success = true;
+  
   std::size_t width = IMAGE_SIZE_WIDTH;
   std::size_t height = IMAGE_SIZE_HEIGHT;
   std::size_t n_pyramid_levels = IMAGE_PYRAMID_LEVELS;
   std::size_t data_bytes = sizeof(unsigned char);
+  
   Subframe::MemoryType type = IMAGE_MEMORY_TYPE;
-
+  
   Timer pool_time("Pool creation (with " STRINGIFY(PYRAMIDPOOL_PREALLOCATED_NUM) " frames)");
   Timer prealloc_time("Preallocated access");
   Timer newalloc_time("New allocation");
+  
 
   for(std::size_t i=0;i<ITERATION_NUM;++i) {
     pool_time.start();
