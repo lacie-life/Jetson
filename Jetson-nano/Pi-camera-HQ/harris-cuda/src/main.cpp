@@ -13,7 +13,7 @@
 
 #include "../include/test_harris.h"
 
-#define TEST_IMAGE_CHESSBOARD_798_798          "/home/lacie/Github/Jetson/Jetson-nano/Pi-camera-HQ/harris-cuda/images/chessboard_798_798.png"
+#define TEST_IMAGE_CHESSBOARD_798_798          "/home/jetson/Github/Jetson/Jetson-nano/Pi-camera-HQ/harris-cuda/images/angry_birds_752_480.jpg"
 
 
 using namespace vilib;

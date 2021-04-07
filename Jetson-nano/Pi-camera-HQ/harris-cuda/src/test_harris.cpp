@@ -192,6 +192,15 @@ bool TestHarris::run_benchmark(std::vector<vilib::Statistics> & stat_cpu,
 #endif /* DISPLAY_PYRAMID_CPU */
 #if DISPLAY_DETECTED_FEATURES_CPU
   // detector_cpu_->displayFeatures(DETECTOR_NAME " detector (CPU)",image_pyramid,true);
+  const std::vector<vilib::DetectorBase<true>::FeaturePoint> result_cpu = detector_cpu_->getPoints();
+  int count_cpu = 0;
+  for (int i = 0; i < result_cpu.size(); i++){
+      if (result_cpu.at(i).x_ != 0 || result_cpu.at(i).y_){
+          std::cout << "CPU: " << result_cpu.at(i).x_ << " " << result_cpu.at(i).y_ << std::endl;
+          count_cpu ++;
+      }
+  }
+  std::cout << "Number of concer: " << count_cpu << std::endl;
 #endif /* DISPLAY_DETECTED_FEATURES_CPU */
 #else
   (void)stat_cpu;
@@ -217,10 +226,15 @@ bool TestHarris::run_benchmark(std::vector<vilib::Statistics> & stat_cpu,
   // frame0->pyramid_.at(0)->display();
 
   // detector_gpu_->displayFeatures(DETECTOR_NAME " detector (GPU)",image_pyramid,true,true);
-  const std::vector<vilib::DetectorBase<true>::FeaturePoint> result = detector_gpu_->getPoints();
-  for (int i = 0; i < result.size(); i++){
-      std::cout << result.at(i).x_ << " " << result.at(i).y_ << std::endl;
+  const std::vector<vilib::DetectorBase<true>::FeaturePoint> result_gpu = detector_gpu_->getPoints();
+  int count_gpu = 0;
+  for (int i = 0; i < result_gpu.size(); i++){
+      if (result_gpu.at(i).x_ != 0 || result_gpu.at(i).y_){
+          std::cout << "GPU: " <<result_gpu.at(i).x_ << " " << result_gpu.at(i).y_ << std::endl;
+          count_gpu ++;
+      }
   }
+  std::cout << "Number of concer: " << count_gpu << std::endl;
 
 #endif /* DISPLAY_DETECTED_FEATURES_GPU */
 #else
