@@ -11,3 +11,6 @@ https://github.com/jetsonhacks/installROS
 
 ## RealSense ROS install 
 https://github.com/jetsonhacks/installRealSenseROS
+
+## Raspberry Pi camera HQ for Jetson Nano
+https://www.arducam.com/docs/camera-for-jetson-nano/native-jetson-cameras-imx219-imx477/imx477-how-to-install-the-driver/
