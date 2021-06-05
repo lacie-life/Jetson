@@ -1,10 +1,13 @@
 import cv2
+import os
 
 # gstreamer_pipeline returns a GStreamer pipeline for capturing from the CSI camera
 # Defaults to 1280x720 @ 60fps
 # Flip the image by setting the flip_method (most common values: 0 and 2)
 # display_width and display_height determine the size of the window on the screen
 
+directory = r"/home/jetson/Github/Jetson/Jetson-nano/images"
+os.chdir(directory)
 
 def gstreamer_pipeline(
     sensor_id=0,
@@ -12,7 +15,7 @@ def gstreamer_pipeline(
     capture_height=720,
     display_width=1280,
     display_height=720,
-    framerate=60,
+    framerate=30,
     flip_method=2,
 ):
     return (
@@ -43,6 +46,7 @@ def show_camera():
     if cap.isOpened():
         window_handle = cv2.namedWindow("CSI Camera", cv2.WINDOW_AUTOSIZE)
         # Window
+        count = 0
         while cv2.getWindowProperty("CSI Camera", 0) >= 0:
             ret_val, img = cap.read()
             cv2.imshow("CSI Camera", img)
@@ -50,7 +54,10 @@ def show_camera():
             keyCode = cv2.waitKey(30) & 0xFF
             # Stop the program on the ESC key
             if keyCode == 27:
-                break
+                filename = str(count) + ".png"
+                cv2.imwrite(filename, img)
+                count = count + 1
+                #break
         cap.release()
         cv2.destroyAllWindows()
     else:
