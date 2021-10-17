@@ -1,3 +1,0 @@
-/home/lacie-life/Github/Jetson/MachineLearning/YOLOv5-LibTorch/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/lacie-life/Github/Jetson/MachineLearning/YOLOv5-LibTorch/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/lacie-life/Github/Jetson/MachineLearning/YOLOv5-LibTorch/cmake-build-debug/CMakeFiles/YOLOv5LibTorch.dir
